@@ -4,20 +4,6 @@
 #include <Arduino.h>
 
 
-int hexDigitToInt(uint8_t c)
-{
-    if ((c >= '0') and (c <= '9'))
-        return c - '0';
-    
-    if ((c >= 'A') and (c <= 'F'))
-        return c - 'A' + 10;
-    
-    if ((c >= 'a') and (c <= 'f'))
-        return c - 'a' + 10;
-
-    return -1;
-}
-
 class StringStream : public Stream
 {
 public:

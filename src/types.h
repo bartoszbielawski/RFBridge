@@ -17,6 +17,13 @@ enum class WriteMode: uint8_t
   Hex
 };
 
+enum class TestMode: uint8_t
+{
+  Disabled,
+  Counter,
+  Invalid
+};
+
 using CommandFunction = void (*)(StringStream& ss);
 
 struct Command

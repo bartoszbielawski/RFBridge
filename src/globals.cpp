@@ -1,6 +1,10 @@
 #include <globals.h>
 #include <commands.h>
 
+
+TestMode testMode = TestMode::Disabled;
+uint16_t testCounter = 0;
+
 const Command commands[] PROGMEM = 
 {
   {"TPOW?", reportTransmitPower, "Get TX power level"},
@@ -21,6 +25,7 @@ const Command commands[] PROGMEM =
   {"POPN=", openPipe,            "Open pipe"},
   {"OPEN=", open,                "Open pipes 0 and 1"},
   {"HELP!", help,                "Help!"},
-  {"TEST!", test,                "Send counter value"},
+  {"TEST=", setTestMode,         "Set test mode"},
+  {"TEST?", reportTestMode,      "Get test mode"},
   {"ERROR", nullptr,             "No help :)"}
 };

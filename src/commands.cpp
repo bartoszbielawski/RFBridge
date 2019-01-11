@@ -164,20 +164,34 @@ void open(StringStream& commandStream)
   Serial.println(F("OPEN:OK"));
 }
 
-void test(StringStream& commandStream)
+void reportTestMode(StringStream& commandStream)
 {
-  int16_t counter = 0;
-  Serial.println(F("TEST:START"));
-  while (!Serial.available())
+  switch (testMode)
   {
-    char data[5] = {0};
-    snprintf(data, 5, "%04X", counter++);
-    Serial.print(F("TEST:Sending "));
-    Serial.println(data);
-    radio.write(data, 4);
-    delay(1000);
+    case TestMode::Disabled: Serial.println(F("TEST:Disabled")); break;
+    case TestMode::Counter: Serial.println(F("TEST:Counter")); break;
+    default: Serial.println(F("TEST:Invalid")); break;
   }
-  Serial.println(F("TEST:DONE"));
+}
+
+void setTestMode(StringStream& commandStream)
+{
+  String arg = commandStream.readString();
+
+  testMode = TestMode::Invalid;
+  if (arg == F("DISABLED"))
+  {
+    testMode = TestMode::Disabled;
+  }
+  if (arg == F("COUNTER"))
+  {
+    testMode = TestMode::Counter;
+    testCounter = 0;
+  }
+
+  reportTestMode(commandStream);
+
+  if (testMode == TestMode::Invalid) testMode = TestMode::Disabled;
 }
 
 void help(StringStream& commandStream)

@@ -23,12 +23,14 @@ void readDataHex(StringStream& s);
 
 void reportAutoReceiveMode(StringStream& commandStream);
 void setAutoReceiveMode(StringStream& commandStream);
-        
+
 void writeDataBinary(StringStream& commandStream);
 void writeDataHex(StringStream& commandStream);
 
 void open(StringStream& commandStream);
-void test(StringStream& commandStream);
 void help(StringStream& commandStream);
+
+void setTestMode(StringStream& commandStream);
+void reportTestMode(StringStream& commandStream);
 
 #endif //COMMANDS_H

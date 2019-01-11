@@ -6,7 +6,9 @@
 #include <types.h>
 
 extern RF24 radio;
-extern ReceiveMode receiveMode;
+extern ReceiveMode  receiveMode;
+extern TestMode     testMode;
+extern uint16_t     testCounter;
 
 extern const Command commands[];
 

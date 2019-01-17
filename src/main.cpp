@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <SPI.h>
+#include <stdint.h>
 #include <RF24.h>
 #include <nRF24L01.h>
 #include <printf.h>
@@ -9,6 +10,7 @@
 #include <globals.h>
 #include <time.h>
 #include <timer.h>
+
 
 #define VERSION "0.1.0"
 
@@ -21,9 +23,9 @@ void testIrq()
 {
   if (testMode != TestMode::Counter)
     return;
-  radio.stopListening();
   char buffer[6] = {0};
   snprintf(buffer, sizeof(buffer), "%04X", testCounter++);
+  radio.stopListening();
   radio.write(buffer, 5);
   radio.startListening();
 }
@@ -36,12 +38,13 @@ void setup(void)
   Serial.println("INFO: RF Bridge " VERSION);
   radio.begin();
   radio.setPALevel(RF24_PA_LOW);
-
   t.every(1000, testIrq);
 }
 
 void loop(void)
 {
+  t.update();
+
   switch (receiveMode)
   {
     case ReceiveMode::Binary: readDataBinary(false); break;

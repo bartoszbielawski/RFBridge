@@ -1,6 +1,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include <stdint.h>
 #include <RF24.h>
 #include <nRF24L01.h>
 #include <types.h>

@@ -11,12 +11,17 @@
 #include <time.h>
 #include <timer.h>
 
-
-#define VERSION "0.1.0"
+#define VERSION "0.1.1"
 
 RF24 radio(9,10); // NRF24L01 used SPI pins + Pin 9 and 10 on the NANO
-String command;
+
+//configure behaviour of your system here:
 ReceiveMode receiveMode = ReceiveMode::Manual;
+TestMode testMode = TestMode::Disabled;
+rf24_pa_dbm_e defaultPower = RF24_PA_LOW;
+bool openPipesByDefault = false;
+uint8_t defaultAddress[5] = {0,0,0,0,0};
+
 Timer t;
 
 void testIrq()
@@ -30,14 +35,24 @@ void testIrq()
   radio.startListening();
 }
 
+
+String command;
+
 void setup(void)
 {
+
   command.reserve(72);
   Serial.begin(115200);
   printf_begin();
   Serial.println("INFO: RF Bridge " VERSION);
   radio.begin();
-  radio.setPALevel(RF24_PA_LOW);
+  radio.setPALevel(defaultPower);
+  if (openPipesByDefault)
+  {
+    radio.openReadingPipe(1,defaultAddress);
+    radio.openWritingPipe(defaultAddress);
+  }
+  
   t.every(1000, testIrq);
 }
 
@@ -48,7 +63,7 @@ void loop(void)
   switch (receiveMode)
   {
     case ReceiveMode::Binary: readDataBinary(false); break;
-    case ReceiveMode::Hex:readDataHex(false); break;
+    case ReceiveMode::Hex:    readDataHex(false);    break;
     default:;
   }
 

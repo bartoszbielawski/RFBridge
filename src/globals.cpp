@@ -2,7 +2,7 @@
 #include <commands.h>
 #include <inttypes.h>
 
-TestMode testMode = TestMode::Disabled;
+
 uint16_t testCounter = 0;
 
 const Command commands[] PROGMEM = 
